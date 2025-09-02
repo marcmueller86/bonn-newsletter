@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Newsletter September 2025 - Stadt Bonn</title>
+    <style>
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6; 
+            color: #2c2c2c; 
+            max-width: 800px; 
+            margin: 0 auto; 
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+        
+        h1, h2, h3 { 
+            color: #237db6; 
+            font-weight: 600;
+        }
+        
+        h1 { 
+            font-size: 1.8em; 
+            margin-bottom: 0.5em; 
+        }
+        
+        h2 { 
+            font-size: 1.4em; 
+            border-bottom: 2px solid #e8f4fb; 
+            padding-bottom: 5px; 
+            margin-top: 30px;
+        }
+        
+        h3 { 
+            font-size: 1.2em; 
+            margin-top: 25px; 
+        }
+        
+        a {
+            color: #237db6;
+            text-decoration: none;
+        }
+        
+        a:hover {
+            text-decoration: underline;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            background: #fff;
+        }
+        
+        th, td {
+            padding: 12px;
+            border: 1px solid #e0e0e0;
+            text-align: left;
+        }
+        
+        th {
+            background: #e8f4fb;
+            color: #237db6;
+            font-weight: 600;
+        }
+        
+        tr:nth-child(even) {
+            background: #f9f9f9;
+        }
+        
+        ul, ol {
+            padding-left: 25px;
+            margin: 15px 0;
+        }
+        
+        li {
+            margin-bottom: 8px;
+        }
+        
+        .header-section {
+            background: linear-gradient(135deg, rgba(35,125,182,0.9), rgba(44,143,199,0.8)), 
+                       url('https://www.bonn.de/begruessungsbilder/Sascha_Engst_Bundesstadt_Bonn-Martinsbrunnen_an_der_Muensterkirche_sae_Bild2___SE-060525PBN-001013.jpg.scaled/c17c44da3247f30dedd46cb48962a8e5.jpg') center/cover no-repeat;
+            color: white;
+            padding: 40px 30px;
+            border-radius: 12px;
+            text-align: center;
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(35,125,182,0.3);
+        }
+        
+        .header-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(35,125,182,0.1);
+            backdrop-filter: blur(1px);
+            pointer-events: none;
+        }
+        
+        .header-content {
+            position: relative;
+            z-index: 2;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .header-section h1 {
+            font-size: 2.2em;
+            margin-bottom: 10px;
+            font-weight: 700;
+            color: white;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+        }
+        
+        .header-section p {
+            font-size: 1.1em;
+            opacity: 0.95;
+            margin: 0;
+            text-shadow: 0 1px 4px rgba(0,0,0,0.4);
+        }
+        
+        .info-box {
+            background: #fff;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .info-box.warning {
+            background: #fff3e0;
+            border-left: 4px solid #ff9800;
+        }
+        
+        .info-box.success {
+            background: #e8f5e9;
+            border-left: 4px solid #28a745;
+        }
+        
+        .info-box.info {
+            background: #e8f4fb;
+            border-left: 4px solid #237db6;
+        }
+        
+        .footer-section {
+            background: #237db6;
+            color: white;
+            padding: 25px;
+            border-radius: 8px;
+            text-align: center;
+            margin-top: 40px;
+        }
+        
+        .footer-section h3 {
+            color: white;
+            margin-top: 0;
+        }
+        
+        .footer-section a {
+            color: #d4af37;
+        }
+        
+        .contact-grid {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+        
+        .contact-item {
+            flex: 1;
+            min-width: 200px;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 6px;
+            border: 1px solid #e0e0e0;
+        }
+        
+        .contact-item h4 {
+            color: #1a5d8a;
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+        
+        .highlight-box {
+            background: #fff8e1;
+            border: 1px solid #ffc107;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 25px 0;
+            position: relative;
+        }
+        
+        .highlight-box::before {
+            content: "⚠️";
+            font-size: 1.5em;
+            position: absolute;
+            top: 15px;
+            left: 15px;
+        }
+        
+        .highlight-box .content {
+            margin-left: 40px;
+        }
+        
+        @media (max-width: 600px) {
+            body {
+                padding: 15px;
+            }
+            
+            .header-section {
+                padding: 20px;
+            }
+            
+            .contact-grid {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            table {
+                font-size: 0.9em;
+            }
+            
+            th, td {
+                padding: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header-section">
+        <div class="header-content">
+            <h1>🏛️ Stadt Bonn - Steuer-Update Newsletter</h1>
+            <p>September 2025 • Amt für Steuern und Liegenschaften</p>
+        </div>
+    </div>
+    
+    <div class="highlight-box">
+        <div class="content">
+            <h3 style="margin-top: 0; color: #e65100;">Wichtige Neuerung ab Oktober 2025</h3>
+            <p><strong>Digitale Steuererklärung wird zur Pflicht:</strong> Ab 1. Oktober 2025 müssen alle Steuererklärungen digital über ELSTER eingereicht werden. Papierformulare werden nicht mehr akzeptiert.</p>
+        </div>
+    </div>
+    
+    <div>
+        <h2>📄 Wichtige Gesetzesänderungen</h2>
+        
+        <div class="info-box info">
+            <h3 style="color: #1a5d8a; margin-top: 0;">🏠 Grundsteuer C eingeführt</h3>
+            <p>Ab 1. Januar 2026 wird die neue <strong>Grundsteuer C</strong> für unbebaute, baureife Grundstücke eingeführt. Diese soll Bauland mobilisieren und Spekulationen eindämmen.</p>
+            <ul>
+                <li><strong>Hebesatz Grundsteuer C:</strong> 650% (deutlich höher als A und B)</li>
+                <li><strong>Betroffene Flächen:</strong> Unbebaute Grundstücke in Baugebieten</li>
+                <li><strong>Ausnahmen:</strong> Erstmalige Bebauung innerhalb von 7 Jahren</li>
+            </ul>
+            <p><em>Quelle: Grundsteuerreformgesetz 2025 - <a href="#" style="color: #237db6;">[BGBl. I 2025, Nr. 187]</a></em></p>
+        </div>
+        
+        <div class="info-box warning">
+            <h3 style="color: #e65100; margin-top: 0;">🚗 Kfz-Steuer Elektrobonus läuft aus</h3>
+            <p>Die Kfz-Steuerbefreiung für Elektrofahrzeuge endet planmäßig am <strong>31. Dezember 2025</strong>. Ab 2026 gilt die reguläre Kfz-Besteuerung.</p>
+            
+            <h4>Neue Kfz-Steuer für E-Fahrzeuge ab 2026:</h4>
+            <table>
+                <tr>
+                    <th>Fahrzeugtyp</th>
+                    <th>Steuer je angefangene 200kg</th>
+                </tr>
+                <tr>
+                    <td>Elektro-PKW</td>
+                    <td>5,50 €</td>
+                </tr>
+                <tr>
+                    <td>Hybrid-PKW</td>
+                    <td>7,50 €</td>
+                </tr>
+                <tr>
+                    <td>Elektro-LKW</td>
+                    <td>12,00 €</td>
+                </tr>
+            </table>
+            <p><em>Quelle: <a href="https://www.bundesfinanzministerium.de" style="color: #237db6;">BMF - Kfz-Steuergesetz Änderungsverordnung 2025</a></em></p>
+        </div>
+    </div>
+    
+    <div>
+        <h2>📊 Aktuelle Steuersätze Stadt Bonn</h2>
+        <div class="info-box">
+            <p>Für das Steuerjahr 2025 gelten folgende Hebesätze in Bonn:</p>
+            <table>
+                <tr>
+                    <th>Steuerart</th>
+                    <th>Hebesatz 2025</th>
+                    <th>Hebesatz 2024</th>
+                    <th>Änderung</th>
+                </tr>
+                <tr>
+                    <td>Grundsteuer A</td>
+                    <td>280%</td>
+                    <td>280%</td>
+                    <td style="color: #666;">unverändert</td>
+                </tr>
+                <tr style="background: #fff3e0;">
+                    <td>Grundsteuer B</td>
+                    <td>465%</td>
+                    <td>460%</td>
+                    <td style="color: #ff9800; font-weight: bold;">+5 Prozentpunkte</td>
+                </tr>
+                <tr>
+                    <td>Gewerbesteuer</td>
+                    <td>450%</td>
+                    <td>450%</td>
+                    <td style="color: #666;">unverändert</td>
+                </tr>
+                <tr style="background: #fff3e0;">
+                    <td>Grundsteuer C (neu)</td>
+                    <td>650%</td>
+                    <td>-</td>
+                    <td style="color: #ff9800; font-weight: bold;">NEU ab 2026</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    
+    <div>
+        <h2>📅 Wichtige Termine Oktober/November 2025</h2>
+        <div class="info-box success">
+            <ul>
+                <li><strong>10. Oktober 2025:</strong> Umsatzsteuer-Voranmeldung September</li>
+                <li><strong>31. Oktober 2025:</strong> Steuererklärung 2024 (letzte Papierform)</li>
+                <li><strong>12. November 2025:</strong> Gewerbesteuer-Voranmeldung Q3</li>
+                <li><strong>15. November 2025:</strong> Grundsteuer Nachforderungen fällig</li>
+                <li><strong>30. November 2025:</strong> Erste digitale Steuererklärungen via ELSTER</li>
+            </ul>
+        </div>
+    </div>
+    
+    <div>
+        <h2>💡 Service-Hinweise</h2>
+        
+        <div class="info-box info">
+            <h3 style="color: #1a5d8a; margin-top: 0;">🖥️ ELSTER-Hilfe verfügbar</h3>
+            <p>Zur Vorbereitung auf die digitale Steuerpflicht bieten wir kostenlose ELSTER-Schulungen an:</p>
+            <ul>
+                <li><strong>Termine:</strong> Jeden Dienstag 14:00-16:00 Uhr</li>
+                <li><strong>Ort:</strong> Bürgerzentrum Bad Godesberg, Raum 201</li>
+                <li><strong>Anmeldung:</strong> Tel. 0228 77-3000 oder online</li>
+            </ul>
+        </div>
+    </div>
+    
+    <div>
+        <h2>📞 Kontakt & Service</h2>
+        <div class="contact-grid">
+            <div class="contact-item">
+                <h4>📞 Steuer-Hotline</h4>
+                <p><strong>0228 77-3000</strong></p>
+                <p>Mo-Fr: 8:00-16:00 Uhr<br>
+                Do zusätzlich: 16:00-18:00 Uhr</p>
+            </div>
+            <div class="contact-item">
+                <h4>📧 E-Mail Service</h4>
+                <p><a href="mailto:steuern@bonn.de">steuern@bonn.de</a></p>
+                <p>Antwort binnen 48h<br>
+                Digitale Anträge möglich</p>
+            </div>
+            <div class="contact-item">
+                <h4>🌐 Online-Services</h4>
+                <p><a href="https://www.bonn.de/steuern" style="color: #237db6;">www.bonn.de/steuern</a></p>
+                <p>ELSTER-Portal<br>
+                Formulare & Anträge</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="footer-section">
+        <h3>🔔 Newsletter-Info</h3>
+        <p>Dieser Newsletter wird monatlich verschickt. Bei Fragen wenden Sie sich an das Steueramt.</p>
+        <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.3); font-size: 0.9em;">
+            <p style="margin: 0;">© 2025 Stadt Bonn • Amt für Steuern und Liegenschaften</p>
+            <p style="margin: 5px 0 0 0;">Berliner Platz 2, 53111 Bonn • <a href="https://www.bonn.de" style="color: #d4af37;">www.bonn.de</a></p>
+        </div>
+    </div>
+</body>
+</html>

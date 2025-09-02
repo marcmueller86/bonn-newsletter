@@ -298,15 +298,6 @@
             padding: 100px 20px;
         }
 
-        .validation-count {
-            background: var(--danger);
-            color: var(--white);
-            border-radius: 50%;
-            padding: 2px 6px;
-            font-size: 0.8em;
-            min-width: 20px;
-            text-align: center;
-        }
 
         .modal {
             display: none;
@@ -371,39 +362,7 @@
             border-radius: 4px;
         }
 
-        .fact-check-loading {
-            text-align: center;
-            padding: 40px;
-            color: var(--text-secondary);
-        }
 
-        .validation-panel {
-            position: fixed;
-            top: 0;
-            right: -400px;
-            width: 400px;
-            height: 100%;
-            background: var(--white);
-            border-left: 1px solid var(--border);
-            z-index: 100;
-            transition: right 0.3s;
-        }
-
-        .validation-panel.active {
-            right: 0;
-        }
-
-        .panel-header {
-            padding: 20px;
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .panel-content {
-            padding: 20px;
-        }
 
         .editor-footer {
             background: var(--bonn-blue);
@@ -518,14 +477,6 @@
                             <!-- Wird dynamisch gefüllt -->
                         </span>
                     </div>
-                    <button id="fact-check-btn" class="btn btn-info" title="Fact-Check durchführen">
-                        <i class="fas fa-search"></i>
-                        Fact-Check
-                    </button>
-                    <button id="validation-btn" class="btn btn-warning" title="Validierung prüfen">
-                        <i class="fas fa-exclamation-triangle"></i>
-                        <span class="validation-count">0</span>
-                    </button>
                     <div class="preview-group">
                         <button id="preview-btn" class="btn btn-secondary">
                             <i class="fas fa-eye"></i>
@@ -672,21 +623,6 @@
             </div>
         </footer>
 
-        <!-- Validation Panel -->
-        <div id="validation-panel" class="validation-panel">
-            <div class="panel-header">
-                <h3>
-                    <i class="fas fa-exclamation-triangle"></i>
-                    Validierungs-Warnungen
-                </h3>
-                <button id="close-validation" class="close-btn">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-            <div class="panel-content">
-                <div id="validation-results"></div>
-            </div>
-        </div>
 
         <!-- Preview Modal -->
         <div id="preview-modal" class="modal">
@@ -765,35 +701,6 @@
             </div>
         </div>
         
-        <!-- Fact-Check Modal -->
-        <div id="fact-check-modal" class="modal">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h3>
-                        <i class="fas fa-search"></i>
-                        Fact-Check Ergebnisse
-                    </h3>
-                    <button class="close-btn" data-close="fact-check-modal">
-                        <i class="fas fa-times"></i>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div id="fact-check-results">
-                        <div class="fact-check-loading">
-                            <i class="fas fa-spinner fa-spin"></i>
-                            Fact-Check wird durchgeführt...
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button id="run-fact-check" class="btn btn-primary">
-                        <i class="fas fa-play"></i>
-                        Fact-Check starten
-                    </button>
-                    <button class="btn btn-outline" data-close="fact-check-modal">Schließen</button>
-                </div>
-            </div>
-        </div>
     </div>
 
     <script>
@@ -835,13 +742,6 @@
                     this.exportDocument();
                 });
 
-                document.getElementById('fact-check-btn').addEventListener('click', () => {
-                    this.showFactCheckModal();
-                });
-
-                document.getElementById('run-fact-check').addEventListener('click', () => {
-                    this.runFactCheck();
-                });
                 
                 // Verification modal listeners
                 document.getElementById('verification-export-btn')?.addEventListener('click', () => {
@@ -1183,43 +1083,6 @@
                 return months[new Date().getMonth()];
             }
 
-            showFactCheckModal() {
-                const modal = document.getElementById('fact-check-modal');
-                modal.classList.add('active');
-            }
-
-            runFactCheck() {
-                const results = document.getElementById('fact-check-results');
-                const editor = document.getElementById('newsletter-editor');
-                
-                results.innerHTML = '<div class="fact-check-loading"><i class="fas fa-spinner fa-spin"></i> Fact-Check läuft...</div>';
-                
-                setTimeout(() => {
-                    const content = editor.textContent;
-                    
-                    if (content.includes('[') || content.includes('VERIFY') || content.length < 100) {
-                        results.innerHTML = `
-                            <div style="padding: 20px; border-left: 4px solid #FFC107; background: #FFF9E6;">
-                                <h4><i class="fas fa-exclamation-triangle" style="color: #FFC107;"></i> Prüfung erforderlich</h4>
-                                <p>Das Dokument enthält noch Platzhalter oder ungeprüfte Daten.</p>
-                                <ul>
-                                    <li>Überprüfen Sie alle [PLATZHALTER] Einträge</li>
-                                    <li>Verifizieren Sie alle Quellenangaben</li>
-                                    <li>Bestätigen Sie alle Zahlen und Daten</li>
-                                </ul>
-                            </div>
-                        `;
-                    } else {
-                        results.innerHTML = `
-                            <div style="text-align: center; padding: 40px; color: #28A745;">
-                                <i class="fas fa-check-circle" style="font-size: 3em; margin-bottom: 20px; display: block;"></i>
-                                <h4>Grundprüfung bestanden</h4>
-                                <p>Keine offensichtlichen Probleme gefunden. Manuelle Überprüfung wird empfohlen.</p>
-                            </div>
-                        `;
-                    }
-                }, 1500);
-            }
 
             closeModal(modalId) {
                 const modal = document.getElementById(modalId);
