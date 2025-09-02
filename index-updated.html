@@ -466,9 +466,9 @@
         <!-- Toolbar -->
         <div class="editor-toolbar">
             <div class="toolbar-section">
-                <label for="newsletter-file" class="btn btn-outline">
+                <label for="newsletter-file" class="btn btn-primary" style="background: #0066CC; color: white; font-weight: bold; box-shadow: 0 4px 8px rgba(0,102,204,0.3);">
                     <i class="fas fa-folder-open"></i>
-                    Dokument laden
+                    📄 Dokument laden
                 </label>
                 <input type="file" id="newsletter-file" accept=".html,.json" style="display: none;">
             </div>
@@ -605,6 +605,61 @@
             </div>
         </div>
         
+        <!-- Verification Modal -->
+        <div id="verification-modal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>
+                        <i class="fas fa-shield-alt"></i>
+                        Verifikation vor Export
+                    </h3>
+                    <button class="close-btn" data-close="verification-modal">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="verification-warning" style="background: #FFF3E0; padding: 15px; border-radius: 6px; margin-bottom: 20px; border-left: 4px solid #FF9800;">
+                        <h4><i class="fas fa-exclamation-triangle" style="color: #FF9800;"></i> Verifikation erforderlich</h4>
+                        <p>Bitte bestätigen Sie, dass alle Punkte überprüft wurden, bevor Sie das Dokument exportieren.</p>
+                    </div>
+                    
+                    <div class="verification-checklist" style="margin-bottom: 20px;">
+                        <label class="checkbox-item">
+                            <input type="checkbox" id="modal-primary-verified">
+                            <span>✓ Primärquellen wurden geprüft</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" id="modal-data-verified">
+                            <span>✓ Alle Zahlen und Daten wurden abgeglichen</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" id="modal-currency-verified">
+                            <span>✓ Aktualität der Informationen wurde geprüft</span>
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" id="modal-legal-verified">
+                            <span>✓ Rechtliche Prüfung wurde durchgeführt</span>
+                        </label>
+                    </div>
+                    
+                    <div id="sources-display" style="background: #F5F5F5; padding: 15px; border-radius: 6px; max-height: 200px; overflow-y: auto;">
+                        <p style="text-align: center; color: #666;">Klicken Sie auf "Quellen anzeigen" um verwendete Referenzen zu sehen.</p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="show-sources-btn" class="btn btn-info">
+                        <i class="fas fa-list"></i>
+                        Quellen anzeigen
+                    </button>
+                    <button id="verification-export-btn" class="btn btn-success" disabled style="opacity: 0.5; cursor: not-allowed;">
+                        <i class="fas fa-download"></i>
+                        Jetzt exportieren
+                    </button>
+                    <button class="btn btn-outline" data-close="verification-modal">Abbrechen</button>
+                </div>
+            </div>
+        </div>
+        
         <!-- Fact-Check Modal -->
         <div id="fact-check-modal" class="modal">
             <div class="modal-content">
@@ -681,6 +736,22 @@
 
                 document.getElementById('run-fact-check').addEventListener('click', () => {
                     this.runFactCheck();
+                });
+                
+                // Verification modal listeners
+                document.getElementById('verification-export-btn')?.addEventListener('click', () => {
+                    this.performExport();
+                });
+                
+                document.getElementById('show-sources-btn')?.addEventListener('click', () => {
+                    this.showSources();
+                });
+                
+                // Modal verification checkboxes
+                document.addEventListener('change', (e) => {
+                    if (e.target.id?.includes('modal-') && e.target.id?.includes('-verified')) {
+                        this.updateVerificationButton();
+                    }
                 });
             }
 
@@ -761,14 +832,9 @@
                                 margin: 0 auto; padding: 20px;
                             }
                             h1, h2, h3 { color: #003366; }
-                            .header { background: linear-gradient(135deg, #003366, #0066CC); 
-                                     color: white; padding: 20px; text-align: center; margin-bottom: 20px; }
                         </style>
                     </head>
                     <body>
-                        <div class="header">
-                            <h1>🏛️ Stadt Bonn - Steuer-Update Newsletter</h1>
-                        </div>
                         ${content}
                     </body>
                     </html>
@@ -776,6 +842,12 @@
             }
 
             exportDocument() {
+                // Check verification before export
+                if (!this.isVerificationComplete()) {
+                    this.showVerificationModal();
+                    return;
+                }
+                
                 const editor = document.getElementById('newsletter-editor');
                 const content = this.createPreviewHtml(editor.innerHTML);
                 
@@ -845,6 +917,90 @@
             closeModal(modalId) {
                 const modal = document.getElementById(modalId);
                 modal.classList.remove('active');
+            }
+            
+            isVerificationComplete() {
+                const primaryVerified = document.getElementById('primary-verified')?.checked;
+                const dataVerified = document.getElementById('data-verified')?.checked;
+                const currencyVerified = document.getElementById('currency-verified')?.checked;
+                const legalVerified = document.getElementById('legal-verified')?.checked;
+                
+                return primaryVerified && dataVerified && currencyVerified && legalVerified;
+            }
+            
+            showVerificationModal() {
+                const modal = document.getElementById('verification-modal');
+                modal.classList.add('active');
+                this.updateVerificationButton();
+            }
+            
+            updateVerificationButton() {
+                const primaryVerified = document.getElementById('modal-primary-verified')?.checked;
+                const dataVerified = document.getElementById('modal-data-verified')?.checked;
+                const currencyVerified = document.getElementById('modal-currency-verified')?.checked;
+                const legalVerified = document.getElementById('modal-legal-verified')?.checked;
+                
+                const exportBtn = document.getElementById('verification-export-btn');
+                const allChecked = primaryVerified && dataVerified && currencyVerified && legalVerified;
+                
+                exportBtn.disabled = !allChecked;
+                if (allChecked) {
+                    exportBtn.style.opacity = '1';
+                    exportBtn.style.cursor = 'pointer';
+                } else {
+                    exportBtn.style.opacity = '0.5';
+                    exportBtn.style.cursor = 'not-allowed';
+                }
+            }
+            
+            performExport() {
+                const editor = document.getElementById('newsletter-editor');
+                const content = this.createPreviewHtml(editor.innerHTML);
+                
+                const filename = this.documentType === 'public' 
+                    ? `Newsletter-${this.getCurrentMonth()}-${new Date().getFullYear()}.html`
+                    : `INTERNES-${this.getCurrentMonth()}-${new Date().getFullYear()}.html`;
+                
+                this.downloadHtml(content, filename);
+                this.closeModal('verification-modal');
+            }
+            
+            showSources() {
+                const editor = document.getElementById('newsletter-editor');
+                const content = editor.innerHTML;
+                const sources = this.extractSources(content);
+                
+                const sourcesDisplay = document.getElementById('sources-display');
+                if (sources.length > 0) {
+                    sourcesDisplay.innerHTML = `
+                        <h4>Gefundene Quellen:</h4>
+                        <ul>${sources.map(source => `<li style="margin-bottom: 5px;">${source}</li>`).join('')}</ul>
+                    `;
+                } else {
+                    sourcesDisplay.innerHTML = '<p style="color: #FF9800; font-weight: bold;">⚠️ Keine Quellen im Dokument gefunden. Bitte fügen Sie Quellenangaben hinzu.</p>';
+                }
+            }
+            
+            extractSources(content) {
+                const sources = [];
+                // Extract URLs
+                const urlRegex = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/g;
+                const urls = content.match(urlRegex) || [];
+                sources.push(...urls);
+                
+                // Extract references in brackets
+                const refRegex = /\[([^\]]+)\]/g;
+                const refs = content.match(refRegex) || [];
+                sources.push(...refs);
+                
+                // Extract citation patterns
+                const citationRegex = /(Quelle:|Ref:|siehe:)\s*([^\n<]+)/gi;
+                let match;
+                while ((match = citationRegex.exec(content)) !== null) {
+                    sources.push(match[2].trim());
+                }
+                
+                return [...new Set(sources)];
             }
         }
 
