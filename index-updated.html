@@ -4,10 +4,427 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Newsletter Editor - Stadt Bonn</title>
-    <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400;600;700&family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="enhanced-styles.css">
+    <style>
+        :root {
+            --bonn-blue: #003366;
+            --bonn-light-blue: #0066CC;
+            --bonn-gold: #FFD700;
+            --text-primary: #333333;
+            --text-secondary: #666666;
+            --background: #FAFAFA;
+            --white: #FFFFFF;
+            --success: #28A745;
+            --warning: #FFC107;
+            --danger: #DC3545;
+            --border: #E0E0E0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--background);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        .editor-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: var(--white);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            min-height: 100vh;
+        }
+
+        .editor-header {
+            background: linear-gradient(135deg, var(--bonn-blue), var(--bonn-light-blue));
+            color: var(--white);
+            padding: 20px 40px;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .editor-title {
+            font-size: 1.8em;
+            font-weight: 600;
+        }
+
+        .editor-title i {
+            margin-right: 10px;
+            color: var(--bonn-gold);
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: var(--bonn-light-blue);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            background: var(--bonn-blue);
+            transform: translateY(-2px);
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: var(--white);
+        }
+
+        .btn-success:hover {
+            background: #218838;
+        }
+
+        .btn-warning {
+            background: var(--warning);
+            color: var(--text-primary);
+        }
+
+        .btn-info {
+            background: #17a2b8;
+            color: var(--white);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--white);
+            color: var(--white);
+        }
+
+        .btn-outline:hover {
+            background: var(--white);
+            color: var(--bonn-blue);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: var(--white);
+        }
+
+        .editor-toolbar {
+            background: #f8f9fa;
+            padding: 20px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .toolbar-section h3 {
+            color: var(--bonn-blue);
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        .document-info {
+            background: var(--white);
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            max-width: 300px;
+        }
+
+        .document-type-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: 500;
+            margin-bottom: 10px;
+        }
+
+        .document-type-badge.public {
+            background: #E8F5E9;
+            color: #2E7D32;
+        }
+
+        .document-type-badge.internal {
+            background: #FFEBEE;
+            color: #C62828;
+        }
+
+        .document-info-text {
+            color: var(--text-secondary);
+            font-size: 0.9em;
+        }
+
+        .format-buttons {
+            display: flex;
+            gap: 5px;
+        }
+
+        .format-btn {
+            width: 40px;
+            height: 40px;
+            border: 1px solid var(--border);
+            background: var(--white);
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .format-btn:hover {
+            background: var(--bonn-light-blue);
+            color: var(--white);
+        }
+
+        .editor-main {
+            display: flex;
+            min-height: 600px;
+        }
+
+        .editor-sidebar {
+            width: 300px;
+            background: #f8f9fa;
+            border-right: 1px solid var(--border);
+            padding: 20px;
+        }
+
+        .sidebar-section {
+            margin-bottom: 30px;
+        }
+
+        .sidebar-section h3 {
+            color: var(--bonn-blue);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .verification-panel {
+            background: var(--white);
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+        }
+
+        .status-unverified {
+            background: #FFF3E0;
+            color: #E65100;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+        }
+
+        .editor-content {
+            flex: 1;
+            padding: 30px;
+        }
+
+        .content-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .content-header h2 {
+            color: var(--bonn-blue);
+            font-size: 1.5em;
+        }
+
+        .content-info span {
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        .editor-area {
+            background: var(--white);
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            min-height: 500px;
+        }
+
+        .newsletter-editor {
+            padding: 30px;
+            min-height: 500px;
+            outline: none;
+        }
+
+        .placeholder-content {
+            text-align: center;
+            color: var(--text-secondary);
+            padding: 100px 20px;
+        }
+
+        .validation-count {
+            background: var(--danger);
+            color: var(--white);
+            border-radius: 50%;
+            padding: 2px 6px;
+            font-size: 0.8em;
+            min-width: 20px;
+            text-align: center;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: var(--white);
+            border-radius: 8px;
+            max-width: 800px;
+            width: 90%;
+            max-height: 80%;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            padding: 20px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-body {
+            padding: 20px;
+        }
+
+        .modal-footer {
+            padding: 20px;
+            border-top: 1px solid var(--border);
+            text-align: right;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5em;
+            cursor: pointer;
+            color: var(--text-secondary);
+        }
+
+        .close-btn:hover {
+            color: var(--danger);
+        }
+
+        #preview-frame {
+            width: 100%;
+            height: 500px;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+        }
+
+        .fact-check-loading {
+            text-align: center;
+            padding: 40px;
+            color: var(--text-secondary);
+        }
+
+        .validation-panel {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 400px;
+            height: 100%;
+            background: var(--white);
+            border-left: 1px solid var(--border);
+            z-index: 100;
+            transition: right 0.3s;
+        }
+
+        .validation-panel.active {
+            right: 0;
+        }
+
+        .panel-header {
+            padding: 20px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .panel-content {
+            padding: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .editor-toolbar {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .editor-main {
+                flex-direction: column;
+            }
+
+            .editor-sidebar {
+                width: 100%;
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="editor-container">
@@ -219,7 +636,221 @@
         </div>
     </div>
 
-    <script src="templates.js"></script>
-    <script src="editor-updated.js"></script>
+    <script>
+        class NewsletterEditor {
+            constructor() {
+                this.currentDocument = null;
+                this.documentType = null;
+                this.init();
+            }
+
+            init() {
+                this.setupEventListeners();
+            }
+
+            setupEventListeners() {
+                document.getElementById('newsletter-file').addEventListener('change', (e) => {
+                    this.loadFile(e.target.files[0]);
+                });
+
+                document.querySelectorAll('.format-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        const command = e.currentTarget.dataset.command;
+                        this.executeCommand(command);
+                    });
+                });
+
+                document.querySelectorAll('[data-close]').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        const modalId = e.currentTarget.dataset.close;
+                        this.closeModal(modalId);
+                    });
+                });
+
+                document.getElementById('preview-btn').addEventListener('click', () => {
+                    this.showPreview();
+                });
+
+                document.getElementById('export-btn').addEventListener('click', () => {
+                    this.exportDocument();
+                });
+
+                document.getElementById('fact-check-btn').addEventListener('click', () => {
+                    this.showFactCheckModal();
+                });
+
+                document.getElementById('run-fact-check').addEventListener('click', () => {
+                    this.runFactCheck();
+                });
+            }
+
+            async loadFile(file) {
+                if (!file) return;
+
+                const content = await file.text();
+                const editor = document.getElementById('newsletter-editor');
+                
+                this.detectDocumentType(content, file.name);
+                
+                editor.innerHTML = content;
+                this.currentDocument = content;
+                
+                this.updateDocumentInfo();
+
+                document.getElementById('content-status').textContent = 
+                    this.documentType === 'internal' ? 'Internes Dokument geladen' : 'Öffentlicher Newsletter geladen';
+            }
+
+            detectDocumentType(content, filename) {
+                if (filename.toLowerCase().includes('intern') || content.includes('INTERNES DOKUMENT')) {
+                    this.documentType = 'internal';
+                } else {
+                    this.documentType = 'public';
+                }
+            }
+
+            updateDocumentInfo() {
+                const typeIndicator = document.getElementById('current-document-type');
+                const infoText = document.getElementById('document-info-text');
+                
+                if (this.documentType === 'public') {
+                    typeIndicator.innerHTML = '<i class="fas fa-globe"></i> Öffentlicher Newsletter';
+                    typeIndicator.className = 'document-type-badge public';
+                    infoText.textContent = 'Öffentlicher Newsletter - Nur Gesetzesänderungen und Quellenverzeichnis';
+                } else {
+                    typeIndicator.innerHTML = '<i class="fas fa-lock"></i> Internes Dokument';
+                    typeIndicator.className = 'document-type-badge internal';
+                    infoText.textContent = 'Internes Dokument - Fokuspunkte, TCMS-Daten und Handlungsempfehlungen';
+                }
+            }
+
+            executeCommand(command) {
+                if (command === 'createLink') {
+                    const url = prompt('URL eingeben:');
+                    if (url) {
+                        document.execCommand(command, false, url);
+                    }
+                } else {
+                    document.execCommand(command, false, null);
+                }
+            }
+
+            showPreview() {
+                const modal = document.getElementById('preview-modal');
+                const frame = document.getElementById('preview-frame');
+                const editor = document.getElementById('newsletter-editor');
+                
+                const previewHtml = this.createPreviewHtml(editor.innerHTML);
+                frame.srcdoc = previewHtml;
+                
+                modal.classList.add('active');
+            }
+
+            createPreviewHtml(content) {
+                return `
+                    <!DOCTYPE html>
+                    <html lang="de">
+                    <head>
+                        <meta charset="UTF-8">
+                        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                        <title>Vorschau - Newsletter</title>
+                        <style>
+                            body { 
+                                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+                                line-height: 1.6; color: #333; max-width: 800px; 
+                                margin: 0 auto; padding: 20px;
+                            }
+                            h1, h2, h3 { color: #003366; }
+                            .header { background: linear-gradient(135deg, #003366, #0066CC); 
+                                     color: white; padding: 20px; text-align: center; margin-bottom: 20px; }
+                        </style>
+                    </head>
+                    <body>
+                        <div class="header">
+                            <h1>🏛️ Stadt Bonn - Steuer-Update Newsletter</h1>
+                        </div>
+                        ${content}
+                    </body>
+                    </html>
+                `;
+            }
+
+            exportDocument() {
+                const editor = document.getElementById('newsletter-editor');
+                const content = this.createPreviewHtml(editor.innerHTML);
+                
+                const filename = this.documentType === 'public' 
+                    ? `Newsletter-${this.getCurrentMonth()}-${new Date().getFullYear()}.html`
+                    : `INTERNES-${this.getCurrentMonth()}-${new Date().getFullYear()}.html`;
+                
+                this.downloadHtml(content, filename);
+            }
+
+            downloadHtml(content, filename) {
+                const blob = new Blob([content], { type: 'text/html;charset=utf-8' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = filename;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            }
+
+            getCurrentMonth() {
+                const months = ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 
+                               'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'];
+                return months[new Date().getMonth()];
+            }
+
+            showFactCheckModal() {
+                const modal = document.getElementById('fact-check-modal');
+                modal.classList.add('active');
+            }
+
+            runFactCheck() {
+                const results = document.getElementById('fact-check-results');
+                const editor = document.getElementById('newsletter-editor');
+                
+                results.innerHTML = '<div class="fact-check-loading"><i class="fas fa-spinner fa-spin"></i> Fact-Check läuft...</div>';
+                
+                setTimeout(() => {
+                    const content = editor.textContent;
+                    
+                    if (content.includes('[') || content.includes('VERIFY') || content.length < 100) {
+                        results.innerHTML = `
+                            <div style="padding: 20px; border-left: 4px solid #FFC107; background: #FFF9E6;">
+                                <h4><i class="fas fa-exclamation-triangle" style="color: #FFC107;"></i> Prüfung erforderlich</h4>
+                                <p>Das Dokument enthält noch Platzhalter oder ungeprüfte Daten.</p>
+                                <ul>
+                                    <li>Überprüfen Sie alle [PLATZHALTER] Einträge</li>
+                                    <li>Verifizieren Sie alle Quellenangaben</li>
+                                    <li>Bestätigen Sie alle Zahlen und Daten</li>
+                                </ul>
+                            </div>
+                        `;
+                    } else {
+                        results.innerHTML = `
+                            <div style="text-align: center; padding: 40px; color: #28A745;">
+                                <i class="fas fa-check-circle" style="font-size: 3em; margin-bottom: 20px; display: block;"></i>
+                                <h4>Grundprüfung bestanden</h4>
+                                <p>Keine offensichtlichen Probleme gefunden. Manuelle Überprüfung wird empfohlen.</p>
+                            </div>
+                        `;
+                    }
+                }, 1500);
+            }
+
+            closeModal(modalId) {
+                const modal = document.getElementById(modalId);
+                modal.classList.remove('active');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            window.newsletterEditor = new NewsletterEditor();
+        });
+    </script>
 </body>
 </html>
