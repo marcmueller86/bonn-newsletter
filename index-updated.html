@@ -1009,14 +1009,16 @@
                             }
                             
                             .header-section {
-                                background: linear-gradient(135deg, #237db6, #2c8fc7);
+                                background: linear-gradient(135deg, rgba(35,125,182,0.9), rgba(44,143,199,0.8)), 
+                                           url('https://www.bonn.de/begruessungsbilder/Sascha_Engst_Bundesstadt_Bonn-Martinsbrunnen_an_der_Muensterkirche_sae_Bild2___SE-060525PBN-001013.jpg.scaled/c17c44da3247f30dedd46cb48962a8e5.jpg') center/cover no-repeat;
                                 color: white;
-                                padding: 30px;
-                                border-radius: 8px;
+                                padding: 40px 30px;
+                                border-radius: 12px;
                                 text-align: center;
                                 margin-bottom: 30px;
                                 position: relative;
                                 overflow: hidden;
+                                box-shadow: 0 8px 32px rgba(35,125,182,0.3);
                             }
                             
                             .header-section::before {
@@ -1026,13 +1028,30 @@
                                 left: 0;
                                 right: 0;
                                 bottom: 0;
-                                background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="white" stroke-width="0.5" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+                                background: rgba(35,125,182,0.1);
+                                backdrop-filter: blur(1px);
                                 pointer-events: none;
                             }
                             
                             .header-content {
                                 position: relative;
-                                z-index: 1;
+                                z-index: 2;
+                                text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+                            }
+                            
+                            .header-section h1 {
+                                font-size: 2.2em;
+                                margin-bottom: 10px;
+                                font-weight: 700;
+                                color: white;
+                                text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+                            }
+                            
+                            .header-section p {
+                                font-size: 1.1em;
+                                opacity: 0.95;
+                                margin: 0;
+                                text-shadow: 0 1px 4px rgba(0,0,0,0.4);
                             }
                             
                             .info-box {
@@ -1294,9 +1313,11 @@
             loadExampleNewsletter() {
                 const exampleContent = `
                 <div style="max-width: 800px; margin: 0 auto; padding: 20px; font-family: Arial, sans-serif; line-height: 1.6;">
-                    <div style="text-align: center; margin-bottom: 30px; padding: 20px; background: #237db6; color: white; border-radius: 8px;">
-                        <h1 style="margin: 0; font-size: 1.8em;">🏛️ Stadt Bonn - Steuer-Update Newsletter</h1>
-                        <p style="margin: 10px 0 0 0; opacity: 0.9;">Februar 2024 • Amt für Steuern und Liegenschaften</p>
+                    <div class="header-section">
+                        <div class="header-content">
+                            <h1>🏛️ Stadt Bonn - Steuer-Update Newsletter</h1>
+                            <p>Februar 2024 • Amt für Steuern und Liegenschaften</p>
+                        </div>
                     </div>
                     
                     <div style="margin-bottom: 30px;">
